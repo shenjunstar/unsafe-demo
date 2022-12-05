@@ -1,4 +1,4 @@
-package com.wangoon.demo.unsafe.unsafedemo;
+package com.wangoon.demo.unsafe;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
