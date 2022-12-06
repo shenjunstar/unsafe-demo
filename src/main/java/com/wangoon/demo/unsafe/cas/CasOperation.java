@@ -5,7 +5,6 @@ import com.wangoon.demo.unsafe.base.UserWithDefaultVal;
 
 import java.lang.reflect.Field;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -32,6 +31,7 @@ public class CasOperation extends BaseOperation {
         Field ageField = UserWithDefaultVal.class.getDeclaredField("age");
         //计算变量在对象内存中的偏移量
         long offset = UNSAFE.objectFieldOffset(ageField);
+        //模拟线程并发
         CountDownLatch cdl = new CountDownLatch(1);
         for(int i=0;i<10;i++){
             executor.execute(()->{
