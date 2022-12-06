@@ -1,4 +1,4 @@
-package com.wangoon.demo.unsafe.objects;
+package com.wangoon.demo.unsafe.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +26,6 @@ public class User {
         this.age = age;
         this.creatMillis = creatMillis;
         this.hobbies = hobbies;
-        System.out.println("enter constructor");
+        System.out.println("enter User constructor with args!!");
     }
 }

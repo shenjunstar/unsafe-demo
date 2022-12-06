@@ -1,11 +1,10 @@
 package com.wangoon.demo.unsafe.access;
 
 import com.wangoon.demo.unsafe.UnsafeFactory;
-import com.wangoon.demo.unsafe.objects.User;
+import com.wangoon.demo.unsafe.base.User;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 
 /**
  * @author Jeff.Shen
