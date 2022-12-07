@@ -20,6 +20,13 @@ public class User {
     private long creatMillis;
     
     private String[] hobbies;
+    
+    public static boolean flag;
+    public static String value = "value";
+    
+    public User(){
+        System.out.println("enter User constructor without args!!");
+    }
 
     public User(String name, int age, long creatMillis, String[] hobbies) {
         this.name = name;

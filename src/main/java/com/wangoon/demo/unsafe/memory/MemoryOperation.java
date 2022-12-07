@@ -23,18 +23,21 @@ public class MemoryOperation extends BaseOperation {
     public static void oper1(){
         long allocateBytes = Integer.BYTES;
         long address = UNSAFE.allocateMemory(allocateBytes);
-        log.info("allocate {} bytes, memory address:{}", allocateBytes, address);
-        // 在已经分配的内存地址中赋值
-        UNSAFE.putInt(address, Integer.MIN_VALUE);
-        log.info("get int from memory:{}, value:{}", address, UNSAFE.getInt(address));
-        // 覆盖原值
-        UNSAFE.putInt(address, Integer.MAX_VALUE);
-        log.info("get int from memory:{}, value:{}", address, UNSAFE.getInt(address));
-        // 获取
-        log.info("native address:{}", UNSAFE.getAddress(address));
-        //释放内存
-        UNSAFE.freeMemory(address);
-        log.info("free memory : {}", address);
+        try {
+            log.info("allocate {} bytes, memory address:{}", allocateBytes, address);
+            // 在已经分配的内存地址中赋值
+            UNSAFE.putInt(address, Integer.MIN_VALUE);
+            log.info("get int from memory:{}, value:{}", address, UNSAFE.getInt(address));
+            // 覆盖原值
+            UNSAFE.putInt(address, Integer.MAX_VALUE);
+            log.info("get int from memory:{}, value:{}", address, UNSAFE.getInt(address));
+            // 获取
+            log.info("native address:{}", UNSAFE.getAddress(address));
+        } finally {
+            //释放内存
+            UNSAFE.freeMemory(address);
+        }
+        
     }
     
     /** 
@@ -65,13 +68,40 @@ public class MemoryOperation extends BaseOperation {
         UNSAFE.setMemory(address, size, (byte)1);
         System.out.println(Long.toBinaryString(UNSAFE.getLong(address)));
     }
+    
+    /** 
+     * 重新分配内存
+     * @author Jeff.Shen
+     * @date 2022/12/7 20:16
+     * @param 
+     * @return 
+     */
+    public static void oper4(){
+        int size = 4;
+        long addr = UNSAFE.allocateMemory(size);
+        long addr3 = UNSAFE.reallocateMemory(addr, size * 2);
+        System.out.println("addr: "+addr);
+        System.out.println("addr3: "+addr3);
+        try {
+            UNSAFE.setMemory(null, addr, size, (byte)1);
+            for (int i = 0; i < 2; i++) {
+                UNSAFE.copyMemory(null,addr,null,addr3+size*i,4);
+            }
+            System.out.println(UNSAFE.getInt(addr));
+            System.out.println(UNSAFE.getLong(addr3));
+        }finally {
+            UNSAFE.freeMemory(addr);
+            UNSAFE.freeMemory(addr3);
+        }
+    }
 
     public static void main(String[] args) {
-        oper1();
-        System.out.println("=====================");
-        oper2();
-        System.out.println("=====================");
-        oper3();
+//        oper1();
+//        System.out.println("=====================");
+//        oper2();
+//        System.out.println("=====================");
+//        oper3();
+        oper4();
     }
     
 }
