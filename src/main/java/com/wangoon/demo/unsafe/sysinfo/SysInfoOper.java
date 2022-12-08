@@ -11,6 +11,15 @@ import com.wangoon.demo.unsafe.base.BaseOperation;
  */
 public class SysInfoOper extends BaseOperation {
     
-    
+    public static void oper1(){
+        int pageSize = UNSAFE.pageSize();
+        int addressSize = UNSAFE.addressSize();
+        System.out.println("pageSize:"+pageSize);
+        System.out.println("addressSize:"+addressSize);
+    }
+
+    public static void main(String[] args) {
+        oper1();
+    }
     
 }

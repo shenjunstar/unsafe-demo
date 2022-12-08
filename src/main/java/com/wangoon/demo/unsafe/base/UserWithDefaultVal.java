@@ -1,6 +1,7 @@
 package com.wangoon.demo.unsafe.base;
 
 import lombok.Data;
+import org.openjdk.jol.info.ClassLayout;
 
 /**
  * @author Jeff.Shen
@@ -22,6 +23,14 @@ public class UserWithDefaultVal {
     
     public UserWithDefaultVal(){
         System.out.println("enter UserWithDefaultVal default constructor!");
+    }
+
+    /**
+     * 打印内存布局
+     */
+    public void printClassLayout(){
+        String layout = ClassLayout.parseInstance(this).toPrintable();
+        System.out.println(layout);
     }
 
     public UserWithDefaultVal(String name, int age, long creatMillis, String[] hobbies) {

@@ -1,6 +1,8 @@
 package com.wangoon.demo.unsafe.memory;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Jeff.Shen
@@ -18,7 +20,9 @@ public class ByteBufferBindHeapObject {
     private byte[] bytes = null;
 
     public ByteBufferBindHeapObject() {
+        //堆外分配2Mb
         buffer = ByteBuffer.allocateDirect(2 * 1024 * 1024);
+        //堆内分配1M
         bytes = new byte[1024 * 1024];
     }
 

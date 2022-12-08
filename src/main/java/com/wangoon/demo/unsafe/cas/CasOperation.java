@@ -16,9 +16,6 @@ import java.util.concurrent.Executors;
  * @create 2022/12/6 17:16
  */
 public class CasOperation extends BaseOperation {
-    
-    private static final ExecutorService executor = Executors.newCachedThreadPool();
-    
     /** 
      * 开启10个线程，去cas user对象中的age属性，最终只有一个线程能修改成功
      * @author Jeff.Shen
@@ -33,23 +30,23 @@ public class CasOperation extends BaseOperation {
         long offset = UNSAFE.objectFieldOffset(ageField);
         //模拟线程并发
         CountDownLatch cdl = new CountDownLatch(1);
+        Runnable r = ()->{
+            String tName = Thread.currentThread().getName();
+            System.out.println("cas age field. Thread:" + tName);
+            try {
+                cdl.await();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            boolean flag = UNSAFE.compareAndSwapInt(user, offset, 10, 11);
+            if (flag) {
+                System.out.println("cas success. Thread:" + tName);
+            }
+        };
         for(int i=0;i<10;i++){
-            executor.execute(()->{
-                String tName = Thread.currentThread().getName();
-                System.out.println("cas age field. Thread:" + tName);
-                try {
-                    cdl.await();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                boolean flag = UNSAFE.compareAndSwapInt(user, offset, 10, 11);
-                if (flag) {
-                    System.out.println("cas success. Thread:" + tName);
-                }
-            });
+            new Thread(r, "thread-"+i).start();
         }
         cdl.countDown();
-        executor.shutdown();
     }
 
     public static void main(String[] args) throws Exception{

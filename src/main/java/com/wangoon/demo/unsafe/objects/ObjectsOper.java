@@ -155,10 +155,10 @@ public class ObjectsOper extends BaseOperation {
     }
 
     public static void main(String[] args) {
-//        oper1();
+        oper1();
 //        oper2();
 //        oper3();
-        oper4();
+//        oper4();
 //        oper5();
     }
     

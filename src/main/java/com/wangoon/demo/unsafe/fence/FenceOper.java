@@ -15,7 +15,7 @@ public class FenceOper extends BaseOperation {
     @Getter
     static class MyThread extends Thread {
         
-        private int count = 0;
+        private /*volatile*/ int count = 0;
         
         @Override
         public void run() {
@@ -33,7 +33,7 @@ public class FenceOper extends BaseOperation {
             UNSAFE.loadFence();
             if(count > 100000) {
                 myThread.interrupt();
-                System.out.println(count);
+                System.out.println("final count:"+count);
                 break;
             }
         }

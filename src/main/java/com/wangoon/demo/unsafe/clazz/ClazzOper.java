@@ -50,7 +50,7 @@ public class ClazzOper extends BaseOperation {
     public static void oper2(){
         try {
 //            User user = new User();
-            UNSAFE.ensureClassInitialized(User.class);
+//            UNSAFE.ensureClassInitialized(User.class);
             boolean flag = UNSAFE.shouldBeInitialized(User.class);
             System.out.println(flag);
             Field valueField = User.class.getDeclaredField("value");
@@ -77,10 +77,10 @@ public class ClazzOper extends BaseOperation {
             fis.read(content);
             Class clazz = UNSAFE.defineClass(null, content, 0, content.length, null, null);
             //获取classloader为空
-            System.out.println(clazz.getClassLoader());
+            System.out.println("classloader:"+clazz.getClassLoader());
             Object o = clazz.newInstance();
             Object age = clazz.getMethod("getAge").invoke(o, null);
-            System.out.println(age);
+            System.out.println("age:"+age);
         } catch (Exception e) {
             e.printStackTrace();
         }
